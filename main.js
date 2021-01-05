@@ -47,7 +47,12 @@ function main() {
       }
       case "book": {
         const [roomNumber, guestName, guestAge] = command.params;
-        if (hotel.find((room) => +room.roomNumber === +roomNumber)) {
+        const hotelIndex = hotel.findIndex(
+          (room) => +room.roomNumber === +roomNumber
+        );
+        const isAvailable = !hotel[hotelIndex].guestName;
+
+        if (isAvailable) {
           const index = keyCards.findIndex((kc) => kc.roomNumber === null);
           keyCards[index] = {
             keycardNumber: index + 1,
@@ -62,6 +67,10 @@ function main() {
           );
           console.log(
             `Room ${roomNumber} is booked by Thor with keycard number ${keyCards[index].keycardNumber}.`
+          );
+        } else {
+          console.log(
+            `Cannot book room ${roomNumber} for ${guestName}, The room is currently booked by ${hotel[hotelIndex].guestName}.`
           );
         }
         return;
