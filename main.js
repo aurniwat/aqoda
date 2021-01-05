@@ -17,7 +17,14 @@ function main() {
       case "create_hotel":
         const [floor, roomPerFloor] = command.params
         const hotel = { floor, roomPerFloor }
-        keyCards = Array.from({ length: floor * roomPerFloor }).fill({ guestName: null, roomNumber: null })
+
+        keyCards = Array.from({ length: floor * roomPerFloor }).map((_, index) => ({
+          keycardNumber: index + 1,
+          guestName: null,
+          roomNumber: null
+        }))
+
+        console.log(keyCards)
 
         console.log(`Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`)
         return
