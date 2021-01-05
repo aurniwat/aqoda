@@ -62,7 +62,7 @@ function main() {
 
           hotel = hotel.map((room) =>
             +room.roomNumber === +roomNumber
-              ? { ...room, guestName, guestAge }
+              ? { ...room, guestName, guestAge, keycard: index + 1 }
               : room
           );
           console.log(
@@ -74,6 +74,16 @@ function main() {
           );
         }
         return;
+      }
+      case "checkout": {
+        const [key, name] = command.params;
+
+        hotel.forEach((item) => {
+          if (+item.keycard === +key && item.guestName === name) {
+            hotel.pop(item);
+          }
+        });
+        console.log("hotel", hotel);
       }
       case "list_available_rooms": {
         const availabelRooms = hotel
