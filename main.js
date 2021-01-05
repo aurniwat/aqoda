@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require("fs")
 
 class Command {
   constructor(name, params) {
@@ -8,18 +8,18 @@ class Command {
 }
 
 function main() {
-  const filename = 'input.txt'
+  const filename = "input.txt"
   const commands = getCommandsFromFileName(filename)
+  let keyCards = []
 
   commands.forEach(command => {
     switch (command.name) {
-      case 'create_hotel':
+      case "create_hotel":
         const [floor, roomPerFloor] = command.params
         const hotel = { floor, roomPerFloor }
+        keyCards = Array.from({ length: floor * roomPerFloor }).fill({ guestName: null, roomNumber: null })
 
-        console.log(
-          `Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`
-        )
+        console.log(`Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`)
         return
       default:
         return
@@ -28,11 +28,11 @@ function main() {
 }
 
 function getCommandsFromFileName(fileName) {
-  const file = fs.readFileSync(fileName, 'utf-8')
+  const file = fs.readFileSync(fileName, "utf-8")
 
   return file
-    .split('\n')
-    .map(line => line.split(' '))
+    .split("\n")
+    .map(line => line.split(" "))
     .map(
       ([commandName, ...params]) =>
         new Command(
