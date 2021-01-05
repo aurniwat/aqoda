@@ -32,16 +32,22 @@ function main() {
           for (let j = 1; j <= roomPerFloor; j++) {
             hotel.push({
               roomNumber: `${i}${j.toString().padStart(2, "0")}`,
-              guestName: null
+              guestName: null,
+              guestAge: null
             })
           }
         }
 
-        console.log(keyCards)
-        console.log(hotel)
+        // console.log(keyCards)
+        // console.log(hotel)
 
         console.log(`Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`)
         return
+      case "list_available_rooms":
+        const availabelRooms = hotel
+          .map((cached, room) => (room.guestName === null ? [...cached, room.roomNumber] : cached.roomNumber), [])
+          .join(", ")
+        console.log(availabelRooms)
       default:
         return
     }
