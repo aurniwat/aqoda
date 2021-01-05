@@ -45,9 +45,16 @@ function main() {
         return
       case "list_available_rooms":
         const availabelRooms = hotel
-          .map((cached, room) => (room.guestName === null ? [...cached, room.roomNumber] : cached.roomNumber), [])
+          .reduce((cached, room) => (room.guestName === null ? cached.concat(room.roomNumber) : cached), [])
           .join(", ")
         console.log(availabelRooms)
+        return
+      case "list_guest":
+        const list_guest = hotel
+          .reduce((cached, room) => (room.guestName !== null ? cached.concat(room.guestName) : cached), [])
+          .join(", ")
+        console.log(list_guest)
+        return
       default:
         return
     }
