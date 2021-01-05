@@ -19,7 +19,7 @@ function main() {
 
   commands.forEach((command) => {
     switch (command.name) {
-      case "create_hotel":
+      case "create_hotel": {
         const [floor, roomPerFloor] = command.params;
 
         keyCards = Array.from({ length: floor * roomPerFloor }).map(
@@ -44,7 +44,8 @@ function main() {
           `Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`
         );
         return;
-      case "book":
+      }
+      case "book": {
         const [roomNumber, guestName, guestAge] = command.params;
         if (hotel.find((room) => +room.roomNumber === +roomNumber)) {
           const index = keyCards.findIndex((kc) => kc.roomNumber === null);
@@ -55,7 +56,7 @@ function main() {
           };
 
           hotel = hotel.map((room) =>
-            room.roomNumber === roomNumber
+            +room.roomNumber === +roomNumber
               ? { ...room, guestName, guestAge }
               : room
           );
@@ -64,17 +65,16 @@ function main() {
           );
         }
         return;
-      case "list_available_rooms":
+      }
+      case "list_available_rooms": {
         const availabelRooms = hotel
-          .reduce(
-            (cached, room) =>
-              room.guestName === null ? cached.concat(room.roomNumber) : cached,
-            []
-          )
+          .filter((room) => room.guestName === null)
+          .map((room) => room.roomNumber)
           .join(", ");
         console.log(availabelRooms);
         return;
-      case "list_guest":
+      }
+      case "list_guest": {
         const list_guest = hotel
           .reduce(
             (cached, room) =>
@@ -84,6 +84,7 @@ function main() {
           .join(", ");
         console.log(list_guest);
         return;
+      }
       // case "list_guest_by_age":
       //   const [operator, age] = command.params
       //   const guestList = hotel.filter(room => eval(`${room.guestAge}${operator}${age}`))
