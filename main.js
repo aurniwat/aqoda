@@ -11,7 +11,7 @@ function main() {
   const filename = "input.txt"
   const commands = getCommandsFromFileName(filename)
   let keyCards = []
-  const hotel = []
+  let hotel = []
 
   function leftFillNum(num, targetLength) {
     return num.toString().padStart(targetLength, 0)
@@ -40,8 +40,15 @@ function main() {
 
         // console.log(keyCards)
         // console.log(hotel)
-
         console.log(`Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`)
+        return
+      case "book":
+        const [roomNumber, guestName, guestAge] = command.params
+        if (hotel.find(room => +room.roomNumber === +roomNumber)) {
+          const keycard = keyCards.find(kc => kc.roomNumber === null)
+          hotel = hotel.map(room => (room.roomNumber === roomNumber ? { ...room, guestName, guestAge } : room))
+          console.log(`Room ${roomNumber} is booked by Thor with keycard number ${keycard.keycardNumber}.`)
+        }
         return
       case "list_available_rooms":
         const availabelRooms = hotel
@@ -55,6 +62,9 @@ function main() {
           .join(", ")
         console.log(list_guest)
         return
+      // case "list_guest_by_age":
+      //   const [operator, age] = command.params
+      //   const guestList = hotel.filter(room => eval(`${room.guestAge}${operator}${age}`))
       default:
         return
     }
